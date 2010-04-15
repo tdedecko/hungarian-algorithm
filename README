@@ -1,4 +1,4 @@
-Implementation of the Hungarian (Munkres) Algorithm using Python and NumPy
+Implementation of the Hungarian (Munkres) Algorithm using Python and NumPy.
 
 Usage:
 	hungarian = Hungarian(costMatrix)
@@ -21,8 +21,12 @@ Get results and total potential after calculation:
 	hungarian.getTotalPotential()
 
 
-References: http://www.ams.jhu.edu/~castello/362/Handouts/hungarian.pdf
-	    http://weber.ucsd.edu/~vcrawfor/hungar.pdf
-	    http://en.wikipedia.org/wiki/Hungarian_algorithm
-	    http://www.public.iastate.edu/~ddoty/HungarianAlgorithm.html
-	    http://www.clapper.org/software/python/munkres/
+Released under MIT License.
+Source repository: git://github.com/tdedecko/hungarian-algorithm.git
+
+References: 
+	http://www.ams.jhu.edu/~castello/362/Handouts/hungarian.pdf
+	http://weber.ucsd.edu/~vcrawfor/hungar.pdf
+	http://en.wikipedia.org/wiki/Hungarian_algorithm
+	http://www.public.iastate.edu/~ddoty/HungarianAlgorithm.html
+	http://www.clapper.org/software/python/munkres/

@@ -1,12 +1,19 @@
 #!/usr/bin/python
 """
-Implementation of the Hungarian (Munkres) Algorithm using NumPy
+Implementation of the Hungarian (Munkres) Algorithm using Python and NumPy
 References: http://www.ams.jhu.edu/~castello/362/Handouts/hungarian.pdf
 	    http://weber.ucsd.edu/~vcrawfor/hungar.pdf
 	    http://en.wikipedia.org/wiki/Hungarian_algorithm
 	    http://www.public.iastate.edu/~ddoty/HungarianAlgorithm.html
 	    http://www.clapper.org/software/python/munkres/
 """
+
+# Module Information.
+__version__   = "1.0"
+__author__    = "Thom Dedecko"
+__url__       = "http://github.com/tdedecko/Hungarian-Algorithm"
+__copyright__ = "(c) 2010 Thom Dedecko"
+__license__   = "MIT License"
 
 
 class HungarianError(Exception): pass

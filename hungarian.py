@@ -11,7 +11,7 @@ References: http://www.ams.jhu.edu/~castello/362/Handouts/hungarian.pdf
 # Module Information.
 __version__   = "1.0"
 __author__    = "Thom Dedecko"
-__url__       = "http://github.com/tdedecko/Hungarian-Algorithm"
+__url__       = "http://github.com/tdedecko/hungarian-algorithm"
 __copyright__ = "(c) 2010 Thom Dedecko"
 __license__   = "MIT License"
 

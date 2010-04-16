@@ -9,7 +9,7 @@ References: http://www.ams.jhu.edu/~castello/362/Handouts/hungarian.pdf
 """
 
 # Module Information.
-__version__   = "1.0"
+__version__   = "1.0.1"
 __author__    = "Thom Dedecko"
 __url__       = "http://github.com/tdedecko/hungarian-algorithm"
 __copyright__ = "(c) 2010 Thom Dedecko"
@@ -117,16 +117,17 @@ class Hungarian:
 	
 		# Step 3: Use minimum number of lines to cover all zeros in the matrix.
 		# If the total covered rows+columns is not equal to the matrix size then adjust matrix and repeat.
-		coverZeros = CoverZeros(resultMatrix)
-		coveredRows = coverZeros.getCoveredRows()
-		coveredColumns = coverZeros.getCoveredColumns()
-		totalCovered = len(coveredRows) + len(coveredColumns)
+		totalCovered = 0
 		while totalCovered < self._size:
-			resultMatrix = self.__adjustMatrixByMinUncoveredNum(resultMatrix, coveredRows, coveredColumns)
+			# Find minimum number of lines to cover all zeros in the matrix and find total covered rows and columns.
 			coverZeros = CoverZeros(resultMatrix)
 			coveredRows = coverZeros.getCoveredRows()
 			coveredColumns = coverZeros.getCoveredColumns()
 			totalCovered = len(coveredRows) + len(coveredColumns)
+			
+			# if the total covered rows+columns is not equal to the matrix size then adjust matrix by minimum uncovered num (m).
+			if totalCovered < self._size:
+				resultMatrix = self.__adjustMatrixByMinUncoveredNum(resultMatrix, coveredRows, coveredColumns)
 
 		# Step 4: Starting with the top row, work your way downwards as you make assignments.
 		# Find single zeros in rows or columns. Add them to final result and remove them and their associated row/column from the matrix.
@@ -209,8 +210,14 @@ class Hungarian:
 
 	def __adjustMatrixByMinUncoveredNum(self, resultMatrix, coveredRows, coveredColumns):
 		"""Subtract m from every uncovered number and add m to every element covered with two lines."""
-		# Calculate m
-		minUncoveredNum = self.__calcMinUncoveredNum(resultMatrix, coveredRows, coveredColumns)
+		# Calculate minimum uncovered number (m)
+		elements = []
+		for rowIndex, row in enumerate(resultMatrix):
+			if not rowIndex in coveredRows:
+				for index, element in enumerate(row):
+					if not index in coveredColumns:
+						elements.append(element)
+		minUncoveredNum = min(elements)
 		
 		# Add m to every covered element
 		adjustedMatrix = resultMatrix
@@ -224,20 +231,6 @@ class Hungarian:
 		adjustedMatrix -= mMatrix
 
 		return adjustedMatrix
-
-
-	def __calcMinUncoveredNum(self, resultMatrix, coveredRows, coveredColumns):
-		"""Calculate Minimum Uncovered Number (m)."""
-		# Set all covered matrix values to max of matrix.
-		# m is the min of this matrix.
-		coveredMatrix = resultMatrix.copy()
-		matrixMax = coveredMatrix.max()
-		for row in coveredRows:
-			coveredMatrix[row] = matrixMax
-		for column in coveredColumns:
-			coveredMatrix[:,column] = matrixMax
-		
-		return coveredMatrix.min()
 
 
 	def __findMatches(self, zeroLocations):

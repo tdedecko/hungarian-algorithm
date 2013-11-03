@@ -454,8 +454,6 @@ if __name__ == '__main__':
         [4, 3, 7],
         [3, 1, 6]]
 
-    cost_matrix = np.abs(np.random.randn(5, 3))
-    print(cost_matrix)
     hungarian = Hungarian(cost_matrix)
     print('calculating...')
     hungarian.calculate()

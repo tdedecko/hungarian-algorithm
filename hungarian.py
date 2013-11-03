@@ -197,8 +197,8 @@ class Hungarian:
 
     def __find_matches(self, zero_locations):
         """Returns rows and columns with matches in them."""
-        marked_rows = np.array([])
-        marked_columns = np.array([])
+        marked_rows = np.array([], dtype=int)
+        marked_columns = np.array([], dtype=int)
 
         # Mark rows and columns with matches
         # Iterate over rows
@@ -453,7 +453,6 @@ if __name__ == '__main__':
         [4, 2, 8],
         [4, 3, 7],
         [3, 1, 6]]
-
     hungarian = Hungarian(cost_matrix)
     print('calculating...')
     hungarian.calculate()

@@ -233,16 +233,16 @@ class Hungarian:
     def select_arbitrary_match(zero_locations):
         """Selects row column combination with minimum number of zeros in it."""
         # Count number of zeros in row and column combinations
-        row_list, column_list = np.where(zero_locations)
+        rows, columns = np.where(zero_locations)
         zero_count = []
-        for index, row in enumerate(row_list):
-            total_zeros = np.sum(zero_locations[row]) + np.sum(zero_locations[:, column_list[index]])
+        for index, row in enumerate(rows):
+            total_zeros = np.sum(zero_locations[row]) + np.sum(zero_locations[:, columns[index]])
             zero_count.append(total_zeros)
 
         # Get the row column combination with the minimum number of zeros.
-        list_index = zero_count.index(min(zero_count))
-        row = np.array([row_list[list_index]])
-        column = np.array([column_list[list_index]])
+        indices = zero_count.index(min(zero_count))
+        row = np.array([rows[indices]])
+        column = np.array([columns[indices]])
 
         return row, column
 

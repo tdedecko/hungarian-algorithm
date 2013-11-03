@@ -9,7 +9,7 @@ References: http://www.ams.jhu.edu/~castello/362/Handouts/hungarian.pdf
 """
 
 # Module Information.
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 __author__ = "Thom Dedecko"
 __url__ = "http://github.com/tdedecko/hungarian-algorithm"
 __copyright__ = "(c) 2010 Thom Dedecko"
@@ -43,8 +43,7 @@ class Hungarian:
         cost_matrix = Hungarian.make_cost_matrix(profit_matrix)
 
     The matrix will be automatically padded if it is not square.
-    The matrix can be padded with:
-        padded_matrix = Hungarian.pad_matrix(cost_matrix)
+    For that numpy's resize function is used, which automatically adds 0's to any row/column that is added
 
     Get results and total potential after calculation:
         hungarian.get_results()
@@ -58,13 +57,14 @@ class Hungarian:
         """
         if input_matrix is not None:
             # Save input
+            my_matrix = np.array(input_matrix)
             self._input_matrix = np.array(input_matrix)
-            self._maxColumn = len(input_matrix[0])
-            self._maxRow = len(input_matrix)
+            self._maxColumn = my_matrix.shape[1]
+            self._maxRow = my_matrix.shape[0]
 
-            # Pad matrix if necessary
-            padded_matrix = self.pad_matrix(input_matrix)
-            my_matrix = np.array(padded_matrix)
+            # Adds 0s if any columns/rows are added. Otherwise stays unaltered
+            matrix_size = max(self._maxColumn, self._maxRow)
+            my_matrix.resize(matrix_size, matrix_size)
 
             # Convert matrix to profit matrix if necessary
             if is_profit_matrix:
@@ -170,36 +170,6 @@ class Hungarian:
         offset_matrix = np.ones(matrix_shape) * profit_matrix.max()
         cost_matrix = offset_matrix - profit_matrix
         return cost_matrix
-
-    @staticmethod
-    def pad_matrix(my_matrix):
-        """
-        If matrix is not square, then make it square by padding the matrix with zeros.
-        Method expects input of a list of lists and not NumPy objects.
-        """
-        # Get matrix dimensions
-        num_cols = len(my_matrix[0])
-        num_rows = len(my_matrix)
-        matrix_size = max(num_cols, num_rows)
-
-        padded_matrix = []
-
-        # Pad columns with zeros
-        for index, row in enumerate(my_matrix):
-            num_missing_cols = matrix_size - len(row)
-            if num_missing_cols < 0:
-                raise HungarianError("Matrix has variable row length")
-
-            # Update padded_matrix
-            new_row = my_matrix[index] + ([0] * num_missing_cols)
-            padded_matrix.append(new_row)
-
-        # Pad rows with zeros
-        num_missing_rows = matrix_size - len(my_matrix)
-        for missingRow in range(num_missing_rows):
-            padded_matrix.append([0] * matrix_size)
-
-        return padded_matrix
 
     def _adjust_matrix_by_min_uncovered_num(self, result_matrix, covered_rows, covered_columns):
         """Subtract m from every uncovered number and add m to every element covered with two lines."""
@@ -483,6 +453,9 @@ if __name__ == '__main__':
         [4, 2, 8],
         [4, 3, 7],
         [3, 1, 6]]
+
+    cost_matrix = np.abs(np.random.randn(5, 3))
+    print(cost_matrix)
     hungarian = Hungarian(cost_matrix)
     print('calculating...')
     hungarian.calculate()

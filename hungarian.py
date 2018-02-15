@@ -167,7 +167,7 @@ class Hungarian:
         """
         # subtract profit matrix from a matrix made of the max value of the profit matrix
         matrix_shape = profit_matrix.shape
-        offset_matrix = np.ones(matrix_shape) * profit_matrix.max()
+        offset_matrix = np.ones(matrix_shape, dtype=int) * profit_matrix.max()
         cost_matrix = offset_matrix - profit_matrix
         return cost_matrix
 
@@ -190,7 +190,7 @@ class Hungarian:
             adjusted_matrix[:, column] += min_uncovered_num
 
         # Subtract m from every element
-        m_matrix = np.ones(self._shape) * min_uncovered_num
+        m_matrix = np.ones(self._shape, dtype=int) * min_uncovered_num
         adjusted_matrix -= m_matrix
 
         return adjusted_matrix

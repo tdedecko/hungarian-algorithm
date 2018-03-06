@@ -64,7 +64,9 @@ class Hungarian:
 
             # Adds 0s if any columns/rows are added. Otherwise stays unaltered
             matrix_size = max(self._maxColumn, self._maxRow)
-            my_matrix.resize(matrix_size, matrix_size)
+            pad_columns = matrix_size - self._maxRow
+            pad_rows = matrix_size - self._maxColumn
+            my_matrix = np.pad(my_matrix, ((0,pad_columns),(0,pad_rows)), 'constant', constant_values=(0))
 
             # Convert matrix to profit matrix if necessary
             if is_profit_matrix:
